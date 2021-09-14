@@ -1,0 +1,10 @@
+
+.idea/Check_vehicles_data.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml
+.idea/modules.xml
+MainApp/__pycache__/__init__.cpython-38.pyc
+MainApp/__pycache__/config.cpython-38.pyc
+MainApp/__pycache__/models.cpython-38.pyc
+MainApp/__pycache__/routes.cpython-38.pyc
