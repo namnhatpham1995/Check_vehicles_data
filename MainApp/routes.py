@@ -4,17 +4,19 @@ from MainApp import app
 from flask import render_template, redirect, url_for, flash, request
 import base64
 import requests
+from urllib.parse import urlparse
 
 id = ""
 secret = ""
 
 
 # Main route to check json request
-@app.route('/get_data', methods=['GET', 'POST'])
-def get_data():
+@app.route('/get_auth_code', methods=['GET', 'POST'])
+def get_auth_code():
     print(id)
-    url = "https://id.mercedes-benz.com/as/authorization.oauth2?response_type=code&redirect_uri=http://192.168.0.126" \
-          ":5000/&client_id=" + id + "&scope=mb:vehicle:status:general mb:user:pool:reader offline_access "
+    host = urlparse(request.base_url)
+    redirect_uri = "http://" + host.hostname
+    url = "https://id.mercedes-benz.com/as/authorization.oauth2?response_type=code&redirect_uri=" + redirect_uri + ":5000/&client_id=" + id + "&scope=mb:vehicle:status:general mb:user:pool:reader offline_access "
     return redirect(url)
 
 
@@ -53,7 +55,7 @@ def login():
             secret = request.form['password']
             print(id)
             print(secret)
-            return redirect(url_for('get_data'))
+            return redirect(url_for('get_auth_code'))
     return render_template('login.html')
 
 
