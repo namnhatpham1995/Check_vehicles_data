@@ -8,3 +8,6 @@ MainApp/__pycache__/__init__.cpython-38.pyc
 MainApp/__pycache__/config.cpython-38.pyc
 MainApp/__pycache__/models.cpython-38.pyc
 MainApp/__pycache__/routes.cpython-38.pyc
+.idea/vcs.xml
+mercedes.txt
+undefined.yaml
