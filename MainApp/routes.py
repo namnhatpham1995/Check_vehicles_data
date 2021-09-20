@@ -10,6 +10,9 @@ id = ""
 secret = ""
 API_URL = 'https://api.mercedes-benz.com/experimental/connectedvehicle/v2/vehicles'
 AUTH_URL = 'https://id.mercedes-benz.com/as/authorization.oauth2'
+TOKEN_URL = 'https://id.mercedes-benz.com/as/token.oauth2'
+TRY_URL = 'https://api.mercedes-benz.com/experimental/connectedvehicle_tryout/v2/vehicles'
+
 
 # Default page
 @app.route('/')
@@ -66,16 +69,20 @@ def get_token(code):
         'redirect_uri': 'http://192.168.0.126:5000/'
     }
 
-    response = requests.post(AUTH_URL, headers=headers, data=data)
+    response = requests.post(TOKEN_URL, headers=headers, data=data)
     # contentType = response.headers.get("content-type")
     # print(contentType)
     response_json = response.json()
     global access_token
     global refresh_token
     access_token = response_json['access_token']
+    print("Access_Token: " + access_token)
+    print(type(access_token))
     refresh_token = response_json['refresh_token']
-    print(response.content)
+    print("Refresh_Token: " + refresh_token)
+    #return redirect(url_for('try_out'))
     return redirect(url_for('call_api'))
+    #return response.content
 
 
 # Call API using token
@@ -83,13 +90,32 @@ def get_token(code):
 def call_api():
     try:
         headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
             "authorization": "Bearer " + access_token
+        }
+
+    except:
+        print('No available token')
+    print(headers)
+    response = requests.get(API_URL, headers=headers)
+    response_json = response.json()
+    error_code = response_json['code']
+    return response.content
+
+
+# Test demo
+@app.route('/try_out', methods=['GET', 'POST'])
+def try_out():
+    try:
+        headers = {
+            "authorization": "Bearer " + "a1b2c3d4-a1b2-a1b2-a1b2-a1b2c3d4e5f6"
         }
         print(headers)
     except:
         print('No available token')
 
-    response = requests.get(API_URL, headers=headers)
+    response = requests.get(TRY_URL, headers=headers)
     response_json = response.json()
-    error_code = response_json['code']
+    # error_code = response_json['code']
     return response.content
