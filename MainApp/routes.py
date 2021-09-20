@@ -66,7 +66,7 @@ def get_token(code):
         'redirect_uri': 'http://192.168.0.126:5000/'
     }
 
-    response = requests.post('https://id.mercedes-benz.com/as/token.oauth2', headers=headers, data=data)
+    response = requests.post(AUTH_URL, headers=headers, data=data)
     # contentType = response.headers.get("content-type")
     # print(contentType)
     response_json = response.json()
