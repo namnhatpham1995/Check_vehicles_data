@@ -12,6 +12,7 @@ API_URL = 'https://api.mercedes-benz.com/experimental/connectedvehicle/v2/vehicl
 AUTH_URL = 'https://id.mercedes-benz.com/as/authorization.oauth2'
 TOKEN_URL = 'https://id.mercedes-benz.com/as/token.oauth2'
 TRY_URL = 'https://api.mercedes-benz.com/experimental/connectedvehicle_tryout/v2/vehicles'
+REDIRECT_URL = 'http://namnhatpham1995.pythonanywhere.com/'
 
 
 # Default page
@@ -48,8 +49,8 @@ def login():
 def get_auth_code():
     print(id)
     host = urlparse(request.base_url)
-    redirect_uri = "http://" + host.hostname
-    url = AUTH_URL + "?response_type=code&redirect_uri=" + redirect_uri + ":5000/&client_id=" + id + "&scope=mb:vehicle:status:general mb:user:pool:reader offline_access "
+    redirect_uri = "http://" + host.hostname + ":5000/"
+    url = AUTH_URL + "?response_type=code&redirect_uri=" + redirect_uri + "&client_id=" + id + "&scope=mb:vehicle:status:general mb:user:pool:reader offline_access "
     return redirect(url)
 
 
@@ -80,9 +81,9 @@ def get_token(code):
     print(type(access_token))
     refresh_token = response_json['refresh_token']
     print("Refresh_Token: " + refresh_token)
-    #return redirect(url_for('try_out'))
+    # return redirect(url_for('try_out'))
     return redirect(url_for('call_api'))
-    #return response.content
+    # return response.content
 
 
 # Call API using token
